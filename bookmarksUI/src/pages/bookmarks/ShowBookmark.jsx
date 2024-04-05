@@ -16,7 +16,7 @@ const ShowBookmark = () => {
       <h1>Bookmark Details</h1>
       {bookmark && (
         <div>
-          <p>Name: {bookmark.name}</p>
+          <p>Title: {bookmark.title}</p>
           <p>URL: <a href={bookmark.url} target="_blank" rel="noopener noreferrer">{bookmark.url}</a></p>
           <div>
             <Link to={`/bookmarks/${bookmark._id}/edit`}>Edit this Bookmark</Link>

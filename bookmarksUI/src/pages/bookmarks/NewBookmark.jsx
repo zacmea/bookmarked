@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const NewBookmark = () => {
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const NewBookmark = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, url }),
+      body: JSON.stringify({ title, url }),
     })
       .then((res) => {
         if (res.ok) {
@@ -40,14 +40,14 @@ const NewBookmark = () => {
     <div>
       <h1>Create New Bookmark</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='name'>Name:</label>
+        <label htmlFor='title'>Title:</label>
         <input
           type='text'
-          name='name'
-          id='name'
-          placeholder='Enter a name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name='title'
+          id='title'
+          placeholder='Enter a title'
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <label htmlFor='url'>URL:</label>
         <input
@@ -58,7 +58,7 @@ const NewBookmark = () => {
           value={url}
           onChange={handleChange}
         />
-        <input type='submit' value='Create a Bookmark' />
+        <input type='submit' value='Create Bookmark' />
       </form>
       <a href='/bookmarks'>Go back</a>
     </div>

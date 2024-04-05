@@ -8,7 +8,7 @@ const Home = () => {
     fetch('http://localhost:3001/bookmarks')
       .then((res) => res.json())
       .then((data) => {
-        setBookmarks(data.sort((a, b) => a.name.localeCompare(b.name)));
+        setBookmarks(data.sort((a, b) => a.title.localeCompare(b.title)));
       });
   }, []);
 
@@ -32,7 +32,7 @@ const Home = () => {
         {bookmarks.map((bookmark) => (
           <li key={bookmark._id}>
             <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
-              {bookmark.name}
+              {bookmark.title}
             </a>
             <button onClick={() => deleteBookmark(bookmark._id)}>Delete</button>
             <Link to={`/bookmarks/${bookmark._id}`}>View/Edit</Link>
@@ -43,4 +43,4 @@ const Home = () => {
   );
 };
 
-export default Home
+export default Home;
