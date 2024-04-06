@@ -4,11 +4,15 @@ const express = require('express');
 const bookmarkControlller = require('./controller/bookmarkController')
 const db = require('./database.js');
 const app = express();
+const cors = require('cors');
+const userController = require('./controller/userController');
 
 // MIDDELWARE
 // app.use(methodOverride('_method'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors())
+app.use(userController)
 
 
 //MOUNT ROUTES
@@ -28,7 +32,7 @@ app.get("/seed", function (req, res){
     })
 
 
-app.use("/", bookmarkControlller)
+// app.use("/", bookmarkControlller)
 app.listen(process.env.PORT, function () {
     console.log('Express is listening to port', process.env.PORT)
 });
