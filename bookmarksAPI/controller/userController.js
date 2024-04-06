@@ -1,12 +1,14 @@
 require('dotenv').config()
 const router = require('express').Router()
-const db = require('../model')
+// const db = require('../model')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const User = require('../model/user');
+const cors = require('cors')
 
 
-router.post('/', async (req, res) => {
+
+router.post('/users/signup', async (req, res) => {
     try {
         const newUser = new User(req.body)
         await newUser.save()
@@ -17,7 +19,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/users/login', async (req, res) => {
     try {
         const { username, password } = req.body
         const user = await User.findOne({ username })
