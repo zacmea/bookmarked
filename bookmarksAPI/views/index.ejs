@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/styles/index.css">
+</head>
+
+<body>
+    <main>
+        <h1>Bookmarks</h1>
+        <section class="bookmarks_listings">
+            <ul>
+                <% bookmarks.forEach((bookmark, _id) =>{ %>
+                <li>
+                            <h4><%= bookmark.title%></h4>
+                            <p><%= bookmark.url %></p>
+                            <a href="/bookmarks/<%=bookmark._id %>">Click here to view each bookmark</a>
+                </li>
+                <% }) %>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
