@@ -1,28 +1,29 @@
 import { useState } from "react";
 
 export default function Auth(props) {
-    const [showLogin, setShowLogin] = useState(true);
+    const [showLogin, setShowLogin] = useState(true); //setting up two states for showing login and login form data
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
 
     const handleLogin = async () => {
+        //creating a function to handle logging in
         try {
-            const response = await fetch('http://localhost:3000/users/login', {
+            const response = await fetch('http://localhost:3000/users/login', { //waiting to fetch login route, then sets response to variable called "response"
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData) //stringifying the form data, referencing the formData state
             })
-            const data = await response.json()
-            props.setUser(data.user)
-            localStorage.setItem('token', data.token)
+            const data = await response.json() //turn the response into json and save it to variable called "data"
+            props.setUser(data.user) //set the user state to the user data from the response
+            localStorage.setItem('token', data.token)  //storing the token in local storage
         } catch (error) {
             console.error(error)
         }
-    }
+    } //end of handleLogin function
 
     const handleSignUp = async () => {
         try {
@@ -39,12 +40,13 @@ export default function Auth(props) {
         } catch (error) {
             console.error(error)
         }
-    }
+    } //end of handleSignUp function
 
     const handleChange = (e) => {
-        setFormData({...formData, [e.target.name]: e.target.value})
+        setFormData({...formData, [e.target.name]: e.target.value}) // the ... copies existing state data and updates the target name with the target value
     }
 
+    //actual component's html
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-500">
           <div className="container mx-auto px-4 max-w-lg bg-gray-200 shadow-lg rounded-lg p-6">
@@ -91,5 +93,5 @@ export default function Auth(props) {
             </section>
           </div>
         </div>
-      );
+      ); // end of component's html
 }
