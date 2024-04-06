@@ -1,63 +1,98 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import AddBookmark from '../components/AddBookmark';
+import EditBookmark from '../components/EditBookmark';
 
 const Home = () => {
   const [bookmarks, setBookmarks] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
 
-  useEffect(() => { //useEffect is a hook that runs after the first render of the component
-    fetch("http://localhost:3000/bookmarks") //fetching the bookmarks route
-      .then((res) => {
-        if (res.ok) {   //if the response is okay
-          return res.json();    //return the response as JSON
-        }
-      })
-      .then((jsonRes) => setBookmarks(jsonRes));    //then set the bookmarks state to the JSON response
+  useEffect(() => {
+    fetch('http://localhost:3000/bookmarks')
+      .then((response) => response.json())
+      .then((data) => setBookmarks(data));
   }, []);
 
-  
+  const deleteBookmark = (id) => {
+    fetch(`http://localhost:3000/bookmarks/${id}`, {
+      method: 'DELETE',
+    }).then(() => {
+      setBookmarks(bookmarks.filter((bookmark) => bookmark._id !== id));
+    });
+  };
 
-//Why was this in the fruits MERN app here in the Home view??
-  //   const handleDelete = (id) => {
-//     fetch(`http://localhost:3000/bookmarks/${id}`, {  //fetching bookmarks route w/ id of the bookmark to delete
-//       method: "DELETE",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     })
-//       .then((res) => {
-//         if (res.ok) {
-//           return res.json(); //if the response is okay, return the response as JSON
-//         } else {
-//           throw new Error("Failed to delete bookmark.");
-//         }
-//       })
-//       .then(() => {
-//         navigate("/"); //then navigate back to the home page
-//       });
-//   };
+  const addBookmark = (newBookmark) => {
+    fetch('http://localhost:3000/bookmarks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newBookmark),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setBookmarks([...bookmarks, data]);
+      });
+  };
 
+  const updateBookmark = (id, updatedBookmark) => {
+    fetch(`http://localhost:3000/bookmarks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedBookmark),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        setBookmarks(bookmarks.map((bookmark) => (bookmark._id === id ? updatedBookmark : bookmark)));
+        setEditIndex(null);
+      });
+  };
+
+  const cancelEdit = () => {
+    setEditIndex(null);
+  };
 
   return (
-    <div>
-      <h1>All bookmarks</h1>
-        <Nav />
-      <ul className="flex flex-col">
-        {bookmarks &&  //if bookmarks exist
-          bookmarks.map((bookmark, index) => { //map through the bookmarks to return 
-            return (
-              <li className="flex">
-                <Link className="mx-5" to={`/bookmarks/${bookmark._id}`}>
-                  {item.name}
-                </Link>
-                <form onSubmit={() => handleDelete(bookmark._id)}>
-                  <input type="submit" value="X" />
-                </form>
-              </li>
-            );
-          })}
-      </ul>
+    <div className="flex justify-center items-center min-h-screen bg-gray-500"> {/* Dark background */}
+      <div className="container mx-auto px-4 max-w-lg bg-gray-200 shadow-lg rounded-lg p-6"> {/* Framed appearance */}
+        <h1 className="text-4xl text-center font-bold my-6 bg-red-600 text-white py-2 px-4 rounded">
+          Bookmarks
+        </h1>
+        <h2 className="text-2xl text-center my-4">
+          Add a new Bookmark
+        </h2>
+        <div className="flex justify-center mb-4">
+          <AddBookmark onAdd={addBookmark} />
+        </div>
+        <ul className="list-none p-0">
+          {bookmarks.map((bookmark, index) => (
+            <li key={bookmark._id} className="bg-red-100 flex items-center justify-between mb-2 p-4 rounded shadow">
+              {editIndex === index ? (
+                <EditBookmark
+                  index={index}
+                  bookmark={bookmark}
+                  onUpdate={(updatedBookmark) => updateBookmark(bookmark._id, updatedBookmark)}
+                  onCancel={cancelEdit}
+                />
+              ) : (
+                <div className="flex items-center justify-between w-full">
+                  <a href={bookmark.url} target="_blank" rel="noopener noreferrer" className="flex-1 mr-4">
+                    {bookmark.title}
+                  </a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); setEditIndex(index); }} className="text-blue-500 hover:text-blue-700 mr-2">Edit</a>
+                  <a href="#" onClick={(e) => { e.preventDefault(); deleteBookmark(bookmark._id); }} className="text-red-500 hover:text-red-700 font-bold"> {/* Delete as X */}
+                    &#10005;
+                  </a>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default Home
