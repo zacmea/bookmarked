@@ -21,7 +21,7 @@ export default function Auth(props) {
             props.setUser(data.user) //set the user state to the user data from the response
             localStorage.setItem('token', data.token)  //storing the token in local storage
         } catch (error) {
-            console.error(error)
+            console.log(error)
         }
     } //end of handleLogin function
 

@@ -19,7 +19,7 @@ const AddBookmark = ({ onAdd }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newBookmark = { title, url };
-    fetch('http://localhost:3001/bookmarks', {
+    fetch('http://localhost:3000/bookmarks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

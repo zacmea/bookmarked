@@ -9,8 +9,9 @@ const Home = () => {
 
   useEffect(() => {
     fetch('http://localhost:3000/bookmarks')
-      .then((response) => response.json())
-      .then((data) => setBookmarks(data));
+      .then((response) => {
+        return response.json()})
+      .then((data) => setBookmarks(data)); //set the bookmarks state to the data from the response
   }, []);
 
   const deleteBookmark = (id) => {
@@ -29,10 +30,14 @@ const Home = () => {
       },
       body: JSON.stringify(newBookmark),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        return response.json()})
       .then((data) => {
         setBookmarks([...bookmarks, data]);
-      });
+      })
+      .then(() => {
+        navigate('/')
+        });
   };
 
   const updateBookmark = (id, updatedBookmark) => {
@@ -78,13 +83,13 @@ const Home = () => {
                 />
               ) : (
                 <div className="flex items-center justify-between w-full">
-                  <a href={bookmark.url} target="_blank" rel="noopener noreferrer" className="flex-1 mr-4">
+                  <Link to={bookmark.url} target="_blank" rel="noopener noreferrer" className="flex-1 mr-4">
                     {bookmark.title}
-                  </a>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setEditIndex(index); }} className="text-blue-500 hover:text-blue-700 mr-2">Edit</a>
-                  <a href="#" onClick={(e) => { e.preventDefault(); deleteBookmark(bookmark._id); }} className="text-red-500 hover:text-red-700 font-bold"> {/* Delete as X */}
+                  </Link>
+                  <Link to="#" onClick={(e) => { e.preventDefault(); setEditIndex(index); }} className="text-blue-500 hover:text-blue-700 mr-2">Edit</Link>
+                  <Link to="#" onClick={(e) => { e.preventDefault(); deleteBookmark(bookmark._id); }} className="text-red-500 hover:text-red-700 font-bold"> {/* Delete as X */}
                     &#10005;
-                  </a>
+                  </Link>
                 </div>
               )}
             </li>
