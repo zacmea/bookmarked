@@ -9,7 +9,7 @@ export default function Auth(props) {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:3001/users/login', {
+            const response = await fetch('http://localhost:3000/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ export default function Auth(props) {
 
     const handleSignUp = async () => {
         try {
-            const response = await fetch('http://localhost:3001/users', {
+            const response = await fetch('http://localhost:3000/users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,13 +50,13 @@ export default function Auth(props) {
           <div className="container mx-auto px-4 max-w-lg bg-gray-200 shadow-lg rounded-lg p-6">
             <section>
               <h2 className="text-4xl text-center font-bold my-6 bg-red-700 text-white py-2 px-4 rounded">
-                {showLogin ? "Login" : "SignUp"}
+                {showLogin ? "Login" : "Sign Up"}
               </h2>
               <button
                 onClick={() => setShowLogin(!showLogin)}
                 className="text-blue-500 hover:text-blue-700 mb-4"
               >
-                {showLogin ? "Switch to SignUp" : "Switch to Login"}
+                {showLogin ? "Switch to Sign Up" : "Switch to Login"}
               </button>
               <form
                 onSubmit={(e) => {
@@ -85,7 +85,7 @@ export default function Auth(props) {
                   type="submit"
                   className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full"
                 >
-                  {showLogin ? "Log Me In" : "Sign Me Up"}
+                  {showLogin ? "Log Me In" : "Create New Account"}
                 </button>
               </form>
             </section>

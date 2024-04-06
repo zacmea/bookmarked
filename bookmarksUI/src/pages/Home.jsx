@@ -8,13 +8,13 @@ const Home = () => {
   const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/bookmarks')
+    fetch('http://localhost:3000/bookmarks')
       .then((response) => response.json())
       .then((data) => setBookmarks(data));
   }, []);
 
   const deleteBookmark = (id) => {
-    fetch(`http://localhost:3001/bookmarks/${id}`, {
+    fetch(`http://localhost:3000/bookmarks/${id}`, {
       method: 'DELETE',
     }).then(() => {
       setBookmarks(bookmarks.filter((bookmark) => bookmark._id !== id));
@@ -22,7 +22,7 @@ const Home = () => {
   };
 
   const addBookmark = (newBookmark) => {
-    fetch('http://localhost:3001/bookmarks', {
+    fetch('http://localhost:3000/bookmarks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const Home = () => {
   };
 
   const updateBookmark = (id, updatedBookmark) => {
-    fetch(`http://localhost:3001/bookmarks/${id}`, {
+    fetch(`http://localhost:3000/bookmarks/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
