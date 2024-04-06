@@ -26,7 +26,7 @@ export default function Auth(props) {
 
     const handleSignUp = async () => {
         try {
-            const response = await fetch('http://localhost:3000/users', {
+            const response = await fetch('http://localhost:3000/users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
