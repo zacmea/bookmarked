@@ -38,7 +38,7 @@ export default function Auth(props) {
             props.setUser(data.newUser)
             localStorage.setItem('token', data.token)
         } catch (error) {
-            console.error(error)
+            // console.error(error)
         }
     } //end of handleSignUp function
 
@@ -58,12 +58,12 @@ export default function Auth(props) {
                 onClick={() => setShowLogin(!showLogin)}
                 className="text-blue-500 hover:text-blue-700 mb-4"
               >
-                {showLogin ? "Switch to Sign Up" : "Switch to Login"}
+                {showLogin ? "Switch to Sign Up" : "Switch to Login"} 
               </button>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  showLogin ? handleLogin() : handleSignUp();
+                  showLogin ? handleLogin() : handleSignUp();  //
                 }}
                 className="flex flex-col items-center space-y-3"
               >
