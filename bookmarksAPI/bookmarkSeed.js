@@ -1,6 +1,7 @@
 const bookmarks = [
     {title: "OpenAI Blog",
      url: "https://openai.com/blog/",
+     
 },
     {title: "Reddit",
     url: "https://www.reddit.com/",

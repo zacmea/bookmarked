@@ -6,7 +6,7 @@ const Bookmarks = require('../model/bookmark');
 router.get('/', function (req, res) {
     Bookmarks.find({})
         .then(bookmarks => 
-    res.render('../views/index.ejs', {bookmarks, currentUser: req.session.currentUser}))
+    res.json({bookmarks}))
 })
 
 //DELETE ROUTE
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
         const newBookmarkInfo= {...req.body, created_by: currentUser._id};
         const newBookmark = await Bookmarks.create(newBookmarkInfo)
         console.log(newBookmark);
-        res.redirect('/')
+        
 } catch(err) {
     console.log(err);
 }

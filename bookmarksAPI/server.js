@@ -6,12 +6,18 @@ const db = require('./database.js');
 const app = express();
 const cors = require('cors');
 const userController = require('./controller/userController');
+const session = require('express-session');
 
 // MIDDELWARE
 // app.use(methodOverride('_method'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
+app.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
 app.use(userController)
 
 
@@ -32,7 +38,7 @@ app.get("/seed", function (req, res){
     })
 
 
-// app.use("/", bookmarkControlller)
+app.use("/bookmarks", bookmarkControlller)
 app.listen(process.env.PORT, function () {
     console.log('Express is listening to port', process.env.PORT)
 });
