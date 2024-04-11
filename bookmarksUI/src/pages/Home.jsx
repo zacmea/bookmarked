@@ -2,15 +2,18 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import AddBookmark from '../components/AddBookmark';
 import EditBookmark from '../components/EditBookmark';
+// import { createIndexes } from '../../../bookmarksAPI/model/bookmark';
 
-const Home = () => {
+const Home = ({user}) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+
 
   useEffect(() => {
     fetch('http://localhost:3000/bookmarks')
       .then((response) => response.json())
-      .then((data) => setBookmarks(data));
+      .then((data) => setBookmarks(data.bookmarks));
+      console.log(bookmarks)
   }, []);
 
   const deleteBookmark = (id) => {
@@ -22,18 +25,10 @@ const Home = () => {
   };
 
   const addBookmark = (newBookmark) => {
-    fetch('http://localhost:3000/bookmarks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newBookmark),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setBookmarks([...bookmarks, data]);
-      });
+
+        setBookmarks([...bookmarks, newBookmark]);
   };
+
 
   const updateBookmark = (id, updatedBookmark) => {
     fetch(`http://localhost:3000/bookmarks/${id}`, {
@@ -41,7 +36,7 @@ const Home = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedBookmark),
+      body: JSON.stringify({...updatedBookmark, created_by: user._id}),
     })
       .then((response) => response.json())
       .then(() => {
@@ -64,10 +59,10 @@ const Home = () => {
           Add a new Bookmark
         </h2>
         <div className="flex justify-center mb-4">
-          <AddBookmark onAdd={addBookmark} />
+          <AddBookmark onAdd={addBookmark} user={user} />
         </div>
         <ul className="list-none p-0">
-          {bookmarks.map((bookmark, index) => (
+          {bookmarks?.map((bookmark, index) => (
             <li key={bookmark._id} className="bg-red-100 flex items-center justify-between mb-2 p-4 rounded shadow">
               {editIndex === index ? (
                 <EditBookmark

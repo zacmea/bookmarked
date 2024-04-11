@@ -18,7 +18,7 @@ const EditBookmark = ({ bookmark, onUpdate, onCancel }) => {
 
   const handleUpdate = () => {
     const updatedBookmark = { title, url };
-    fetch(`http://localhost:3001/bookmarks/${bookmark._id}`, {
+    fetch(`http://localhost:3000/bookmarks/${bookmark._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -31,8 +31,9 @@ const EditBookmark = ({ bookmark, onUpdate, onCancel }) => {
         }
         return response.json();
       })
-      .then(() => {
-        onUpdate(updatedBookmark);
+      .then((data) => {
+        console.log(data);
+        onUpdate(data);
         onCancel(); // Close the edit form
       })
       .catch((error) => console.error('Error:', error));

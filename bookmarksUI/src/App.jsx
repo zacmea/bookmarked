@@ -6,15 +6,16 @@ import Home from "./pages/Home";
 import Auth from "./components/Auth";
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(localStorage.getItem('user') || null);
 
   return (
     <div>
       {
         user ?
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home user={user} />} />
         </Routes> :
+
         <Auth user={user} setUser={setUser}/>
       }
       <Footer />

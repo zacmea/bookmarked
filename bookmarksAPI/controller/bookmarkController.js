@@ -12,15 +12,15 @@ router.get('/', function (req, res) {
 //DELETE ROUTE
 router.delete("/:id", (req, res) => {
     Bookmarks.findByIdAndDelete(req.params.id)
-    .then(() => res.redirect("/new"))
+    .then(() => res.send("Bookmark deleted successfully"))
     .catch(() => res.send('Bookmark not deleted successfully'))
     });
 
 //UPDATE ROUTE
-router.put("/:id/edit", async (req, res) => {
-    const updateBookmarkInfo = {...req.body, created_by: currentUser._id}
+router.put("/:id", async (req, res) => {
+    const updateBookmarkInfo = {...req.body}
     await Bookmarks.findByIdAndUpdate(req.params.id, updateBookmarkInfo, {new: true})
-     .then((bookmark) => res.redirect("/"+ req.params.id )
+     .then((bookmark) => res.json(bookmark)
      );
    });
 
@@ -28,9 +28,11 @@ router.put("/:id/edit", async (req, res) => {
 //CREATE ROUTE
 router.post('/', async (req, res) => {
     try{
-        currentUser = req.sessions,currentUser
-        const newBookmarkInfo= {...req.body, created_by: currentUser._id};
+        currentUser = req.session.currentUser
+        console.log(req.session);
+        const newBookmarkInfo= {...req.body}
         const newBookmark = await Bookmarks.create(newBookmarkInfo)
+        res.json({newBookmark})
         console.log(newBookmark);
         
 } catch(err) {

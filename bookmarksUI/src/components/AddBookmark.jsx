@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddBookmark = ({ onAdd }) => {
+const AddBookmark = ({ onAdd, user}) => {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
 
@@ -19,12 +19,12 @@ const AddBookmark = ({ onAdd }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const newBookmark = { title, url };
-    fetch('http://localhost:3001/bookmarks', {
+    fetch('http://localhost:3000/bookmarks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newBookmark),
+      body: JSON.stringify({...newBookmark, created_by: user._id}),
     })
       .then((response) => {
         if (!response.ok) {
@@ -33,9 +33,10 @@ const AddBookmark = ({ onAdd }) => {
         return response.json();
       })
       .then((data) => {
-        onAdd(data);
-        setTitle('');
-        setUrl('');
+        console.log(data);
+        onAdd(data.newBookmark);
+        // setTitle('');
+        // setUrl('');
       })
       .catch((error) => console.error('Error:', error));
   };
